@@ -11,5 +11,5 @@ spec:
       - path: /
         pathType: Prefix
         backend:
-          serviceName: my-nginx-svc
+          serviceName: nginx-svc
           servicePort: 8080
