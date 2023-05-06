@@ -5,8 +5,9 @@ metadata:
   labels:
     app: nginx
 spec:
+  selector:
+    app: nginx
   type: ClusterIP
   ports:
   - port: 80
-  selector:
-    app: nginx
+    targetPort: 8080
