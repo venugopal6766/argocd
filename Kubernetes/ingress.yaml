@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: digitalfrontiers-sample-ingress
+spec:
+  rules:
+    - host: sample-service.example.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: my-nginx-svc
+              servicePort: 80
