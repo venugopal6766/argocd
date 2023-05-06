@@ -1,15 +1,18 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: test-ingress
+  name: minimal-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx-example
   rules:
   - http:
       paths:
-      - path: /
+      - path: /testpath
         pathType: Prefix
         backend:
-          serviceName: nginx-svc
-          servicePort: 8080
+          service:
+            name: nginx-svc
+            port:
+              number: 80
