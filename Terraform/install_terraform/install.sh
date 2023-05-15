@@ -1,28 +1,23 @@
 #!/bin/bash
+#!/bin/bash
 
 # Update package list
 sudo apt update
 
-# Install unzip and curl
-sudo apt install -y unzip curl
+# Install prerequisites
+sudo apt install -y gnupg software-properties-common curl
 
-# Download the latest Terraform release
-LATEST_VERSION=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+# Add the HashiCorp GPG key
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp.gpg
 
-# Download Terraform binary
-curl -LO "https://releases.hashicorp.com/terraform/${LATEST_VERSION}/terraform_${LATEST_VERSION}_linux_amd64.zip"
+# Add the official HashiCorp repository
+echo "deb [signed-by=/usr/share/keyrings/hashicorp.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list > /dev/null
 
-# Unzip the Terraform archive
-unzip "terraform_${LATEST_VERSION}_linux_amd64.zip"
+# Update package list again
+sudo apt update
 
-# Move the Terraform binary to /usr/local/bin
-sudo mv terraform /usr/local/bin/
-
-# Add /usr/local/bin to the PATH environment variable
-echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
-
-# Refresh the current shell session
-source ~/.bashrc
+# Install Terraform
+sudo apt install -y terraform
 
 # Verify Terraform installation
 terraform version
